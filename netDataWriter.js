@@ -1,6 +1,6 @@
 import UTF8 from "./utf8";
 
-class NetDataWriter {
+export default class NetDataWriter {
   /**
    * @description Contains the raw buffer data the writer holds.
    * @type { ArrayBuffer }
@@ -201,5 +201,3 @@ class NetDataWriter {
     this.#_offset += encodedBytes;
   }
 }
-
-export { NetDataWriter };

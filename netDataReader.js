@@ -1,7 +1,7 @@
-import { NetDataWriter } from "./NetDataWriter";
+import NetDataWriter from "./netDataWriter";
 import UTF8 from "./utf8";
 
-class NetDataReader {
+export default class NetDataReader {
   /**
    * @description Contains the raw buffer data the the reader is set to.
    * @type { ArrayBuffer | undefined }
@@ -196,5 +196,3 @@ class NetDataReader {
     return str;
   }
 }
-
-export { NetDataReader };
