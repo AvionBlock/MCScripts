@@ -1,10 +1,10 @@
-import NetDataWriter from "./netDataWriter";
-import UTF8 from "./utf8";
+import NetDataWriter from "./NetDataWriter";
+import UTF8 from "../UTF8";
 
 export default class NetDataReader {
   /**
    * @description Contains the raw buffer data the the reader is set to.
-   * @type { ArrayBuffer | undefined }
+   * @type { Uint8Array | undefined }
    */
   get data() {
     return this.#_data;
@@ -31,7 +31,7 @@ export default class NetDataReader {
     return this.#_data === undefined;
   }
 
-  /** @type { ArrayBuffer } */
+  /** @type { Uint8Array } */
   #_data;
   /** @type { Number } */
   #_dataSize;
@@ -43,6 +43,7 @@ export default class NetDataReader {
   /**
    * @description Creates a new reader.
    * @param { NetDataWriter } writer
+   * @param { Uint8Array } buffer
    */
   constructor(writer = undefined, buffer = undefined) {
     if (writer !== undefined) this.setWriterSource(writer);
@@ -57,23 +58,22 @@ export default class NetDataReader {
     this.#_data = writer.data;
     this.#_offset = 0;
     this.#_dataSize = writer.length;
-    this.#_dataView = new DataView(this.#_data);
+    this.#_dataView = new DataView(this.#_data.buffer);
   }
 
   /**
    * @description Sets the reader's source.
-   * @param { ArrayBuffer } buffer
+   * @param { Uint8Array } buffer
    */
   setBufferSource(buffer) {
     this.#_data = buffer;
     this.#_offset = 0;
     this.#_dataSize = buffer.byteLength;
-    this.#_dataView = new DataView(this.#_data);
+    this.#_dataView = new DataView(this.#_data.buffer);
   }
 
   /**
    * @description Clear's the reader's source. Does not overwrite or reset the original source.
-   * @param { ArrayBuffer }
    */
 
   clear() {
@@ -87,7 +87,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getFloat() {
-    const value = this.#_dataView.getFloat32(this.#_offset);
+    const value = this.#_dataView.getFloat32(this.#_offset, true);
     this.#_offset += 4;
     return value;
   }
@@ -97,7 +97,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getDouble() {
-    const value = this.#_dataView.getFloat64(this.#_offset);
+    const value = this.#_dataView.getFloat64(this.#_offset, true);
     this.#_offset += 8;
     return value;
   }
@@ -117,7 +117,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getShort() {
-    const value = this.#_dataView.getInt16(this.#_offset);
+    const value = this.#_dataView.getInt16(this.#_offset, true);
     this.#_offset += 2;
     return value;
   }
@@ -127,7 +127,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getInt() {
-    const value = this.#_dataView.getInt32(this.#_offset);
+    const value = this.#_dataView.getInt32(this.#_offset, true);
     this.#_offset += 4;
     return value;
   }
@@ -137,7 +137,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getLong() {
-    const value = this.#_dataView.getBigInt64(this.#_offset);
+    const value = this.#_dataView.getBigInt64(this.#_offset, true);
     this.#_offset += 8;
     return value;
   }
@@ -157,7 +157,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getUshort() {
-    const value = this.#_dataView.getUint16(this.#_offset);
+    const value = this.#_dataView.getUint16(this.#_offset, true);
     this.#_offset += 2;
     return value;
   }
@@ -167,7 +167,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getUint() {
-    const value = this.#_dataView.getUint32(this.#_offset);
+    const value = this.#_dataView.getUint32(this.#_offset, true);
     this.#_offset += 4;
     return value;
   }
@@ -177,7 +177,7 @@ export default class NetDataReader {
    * @returns { Number }
    */
   getUlong() {
-    const value = this.#_dataView.getBigUint64(this.#_offset);
+    const value = this.#_dataView.getBigUint64(this.#_offset, true);
     this.#_offset += 8;
     return value;
   }
@@ -196,3 +196,5 @@ export default class NetDataReader {
     return str;
   }
 }
+
+export { NetDataReader };
