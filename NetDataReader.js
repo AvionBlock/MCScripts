@@ -1,7 +1,7 @@
-import NetDataWriter from "./NetDataWriter";
-import UTF8 from "./UTF8";
+import { NetDataWriter } from "./NetDataWriter";
+import { UTF8 } from "./UTF8";
 
-export default class NetDataReader {
+export class NetDataReader {
   /**
    * @description Contains the raw buffer data the the reader is set to.
    * @type { Uint8Array | undefined }
@@ -29,6 +29,20 @@ export default class NetDataReader {
    */
   get isNull() {
     return this.#_data === undefined;
+  }
+  /**
+   * @description Determines whether the buffer has been fully read.
+   * @type { Boolean }
+   */
+  get endOfData() {
+    return this.#_offset === this.#_dataSize;
+  }
+  /**
+   * @description Calculates how many bytes are left to read.
+   * @type { Number }
+   */
+  get availableBytes() {
+    return this.#_dataSize - this.#_offset;
   }
 
   /** @type { Uint8Array } */
@@ -196,5 +210,3 @@ export default class NetDataReader {
     return str;
   }
 }
-
-export { NetDataReader };
